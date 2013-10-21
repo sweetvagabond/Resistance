@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
+var visitorCount = 0;
 app.use(express.logger());
 
 app.get('/', function(request, response) {
-    response.send('Hello World!');
+    visitorCount += 1;
+    response.send('Hello! You are visitor #' + visitorCount + '.');
 });
 
 var port = process.env.PORT || 5000;
