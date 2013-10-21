@@ -27,11 +27,11 @@
                     if (games.length === 0) {
                         return;
                     }
-                    $('$current-game-container').show();
+                    $('#current-game-container').show();
                     for (var i = 0; i < games.length; i += 1) {
                         var game = games[i];
                         var elmt = $('<a>').text(game.gameId);
-                        $('$current-games').append(elmt);
+                        $('#current-games').append(elmt);
                     }
                 }
             });
