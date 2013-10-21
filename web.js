@@ -9,8 +9,8 @@ app.use(express.static(__dirname + '/static'));
 app.get('/start_game', function(req, res) {
   var name = req.query.name;
   registry.startGame(name);
-  // MUST: Send redirect.
-  res.send('Ok');
+  // Redirect to the "join" screen.
+  res.redirect(301, '/join/' + name);
 });
 
 app.get('/list_current_games', function(req, res) {
