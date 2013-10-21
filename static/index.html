@@ -2,8 +2,42 @@
 <html>
 <head>
     <title>Resistance</title>
+    <style type="text/css">
+        #current-game-container {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <a href="initial.html">Hello</a>
+    <a href="new_game.html">Start New Game</a>
+    <div id="current-game-container">
+        Join Game:
+        <div id="current-games"></div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            // SHOULD: make this poll for updates.
+            // (Or use an FRP framework.)
+            $.ajax({
+                url: '/list_current_games',
+                dataType: 'json',
+                success: function(games) {
+                    console.log(games);
+                    return;
+                    // Exit early if we didn't get any games.
+                    if (games.length === 0) {
+                        return;
+                    }
+                    $('$current-game-container').show();
+                    for (var i = 0; i < games.length; i += 1) {
+                        var game = games[i];
+                        var elmt = $('<a>').text(gameId);
+                        $('$current-games').append(elmt);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
