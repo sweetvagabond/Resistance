@@ -1,33 +1,32 @@
 var games = {};
 
-function Game(gameId, playerCount) {
-  this.gameId = gameId;
-  this.playerCount = playerCount;
+function Game(name) {
+  this.name = name;
 }
 
 
-exports.startGame = function(gameId, playerCount) {
-  if (games.hasOwnProperty(gameId)) {
+exports.startGame = function(name) {
+  if (games.hasOwnProperty(name)) {
     // MUST: Report error.
     return;
   }
-  var game = new Game(gameId, playerCount);
-  games[gameId] = game;
+  var game = new Game(name);
+  games[name] = game;
 };
 
 exports.listGames = function() {
   var ans = [];
-  for (var gameId in games) {
-    if (games.hasOwnProperty(gameId)) {
-      var game = games[gameId];
-      ans.push(game);
+  for (var name in games) {
+    if (games.hasOwnProperty(name)) {
+      var game = games[name];
+      ans.push(game.name);
     }
   }
   // MUST: Sort by game id.
   return ans;
 };
 
-exports.endGame = function(gameId) {
-  // MUST: Complain if gameId is not in our map.
-  delete games[gameId];
+exports.endGame = function(name) {
+  // MUST: Complain if name is not in our map.
+  delete games[name];
 };

@@ -22,15 +22,18 @@
             $.ajax({
                 url: '/list_current_games',
                 dataType: 'json',
-                success: function(games) {
-                    // Exit early if we didn't get any games.
-                    if (games.length === 0) {
+                success: function(names) {
+                    // Exit early if we didn't get any names.
+                    if (names.length === 0) {
                         return;
                     }
                     $('#current-game-container').show();
-                    for (var i = 0; i < games.length; i += 1) {
-                        var game = games[i];
-                        var elmt = $('<a>').text(game.gameId);
+                    for (var i = 0; i < names.length; i += 1) {
+                        var name = names[i];
+                        var attrs = {
+                            href: '/join/' + name
+                        };
+                        var elmt = $('<a>').attr(attrs).text(name);
                         $('#current-games').append(elmt);
                     }
                 }

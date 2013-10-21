@@ -4,13 +4,11 @@ var app = express();
 var visitorCount = 0;
 app.use(express.logger());
 
-app.use(express.bodyParser());
 app.use(express.static(__dirname + '/static'));
 
-app.post('/start_game', function(req, res) {
-  var gameId = req.body.game_id;
-  var playerCount = req.body.player_count;
-  registry.startGame(gameId, playerCount);
+app.get('/start_game', function(req, res) {
+  var name = req.query.name;
+  registry.startGame(name);
   // MUST: Send redirect.
   res.send('Ok');
 });
