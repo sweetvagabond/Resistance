@@ -2,43 +2,24 @@
 <html>
 <head>
     <title>Resistance</title>
-    <style type="text/css">
-        #current-game-container {
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <a href="new_game.html">Start New Game</a>
-    <div id="current-game-container">
-        Join Game:
-        <div id="current-games"></div>
-    </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            // SHOULD: make this poll for updates.
-            // (Or use an FRP framework.)
-            $.ajax({
-                url: '/list_current_games',
-                dataType: 'json',
-                success: function(names) {
-                    // Exit early if we didn't get any names.
-                    if (names.length === 0) {
-                        return;
-                    }
-                    $('#current-game-container').show();
-                    for (var i = 0; i < names.length; i += 1) {
-                        var name = names[i];
-                        var attrs = {
-                            href: '/join/' + name
-                        };
-                        var elmt = $('<a>').attr(attrs).text(name);
-                        $('#current-games').append(elmt);
-                    }
-                }
-            });
-        });
-    </script>
+    <form method="POST" action="play">
+        <table>
+            <tr>
+                <td>Your name:</td>
+                <td><input name="player_id"></td>
+            </tr>
+            <tr>
+                <td>Your game:</td>
+                <td><input name="game_id"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit">
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

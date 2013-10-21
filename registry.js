@@ -1,29 +1,20 @@
 var state = require('./state');
 var games = {};
 
-
-exports.startGame = function(name) {
-  if (games.hasOwnProperty(name)) {
-    // MUST: Report error.
-    return;
+exports.getOrCreateGame = function(gameId) {
+  // SHOULD: consider case where gameId === 'hasOwnProperty'.
+  if (!games.hasOwnProperty(gameId)) {
+    games[gameId] = new state.Game(gameId);
   }
-  var game = new state.Game(name);
-  games[name] = game;
+  return games[gameId];
 };
 
-exports.listGames = function() {
-  var ans = [];
-  for (var name in games) {
-    if (games.hasOwnProperty(name)) {
-      var game = games[name];
-      ans.push(game.name);
-    }
-  }
-  // MUST: Sort by game id.
-  return ans;
-};
-
-exports.endGame = function(name) {
+exports.lookupGame = function(gameId) {
   // MUST: Complain if name is not in our map.
-  delete games[name];
+  return games[gameId];
+};
+
+exports.endGame = function(gameId) {
+  // MUST: Complain if name is not in our map.
+  delete games[gameId];
 };
