@@ -1,8 +1,5 @@
+var state = require('./state');
 var games = {};
-
-function Game(name) {
-  this.name = name;
-}
 
 
 exports.startGame = function(name) {
@@ -10,7 +7,7 @@ exports.startGame = function(name) {
     // MUST: Report error.
     return;
   }
-  var game = new Game(name);
+  var game = new state.Game(name);
   games[name] = game;
 };
 
