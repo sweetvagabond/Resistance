@@ -23,8 +23,6 @@
                 url: '/list_current_games',
                 dataType: 'json',
                 success: function(games) {
-                    console.log(games);
-                    return;
                     // Exit early if we didn't get any games.
                     if (games.length === 0) {
                         return;
@@ -32,7 +30,7 @@
                     $('$current-game-container').show();
                     for (var i = 0; i < games.length; i += 1) {
                         var game = games[i];
-                        var elmt = $('<a>').text(gameId);
+                        var elmt = $('<a>').text(game.gameId);
                         $('$current-games').append(elmt);
                     }
                 }
