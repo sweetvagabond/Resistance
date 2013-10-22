@@ -24,7 +24,9 @@ function checkMessages() {
         },
         dataType: 'json',
         success: function(messages) {
-            console.log(messages);
+            if (messages.length > 0) {
+                console.log(messages);
+            }
         }
     });
 };
