@@ -9,7 +9,7 @@ exports.getOrCreateGame = function(gameId) {
   return games[gameId];
 };
 
-exports.lookupGame = function(gameId) {
+exports.getGame = function(gameId) {
   // MUST: Complain if name is not in our map.
   return games[gameId];
 };
