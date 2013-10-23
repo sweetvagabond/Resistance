@@ -124,6 +124,11 @@ AcceptingNewPlayers.prototype.receive = function(message) {
         var numPlayers = this.game.numPlayers();
         if ((numPlayers >= 5) && (numPlayers === numReady)) {
             this.game.enterPhase(AssigningRoles);
+        } else {
+            this.game.broadcast({
+                subject: 'ReadyPlayers',
+                body: this.readyPlayers.values()
+            });
         }
     }
 };
