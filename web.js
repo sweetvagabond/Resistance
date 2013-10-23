@@ -29,7 +29,7 @@ app.post('/send', function(req, res) {
     var gameId = req.body.game_id;
     var playerId = req.body.player_id;
     var game = state.getGame(gameId);
-    var message = JSON.parse(req.body.message || 'null');
+    var message = JSON.parse(req.body.message);
     var raw = game.phase.receive(message);
     var ans = (raw === void 0) ? null : raw;
     res.send(JSON.stringify(ans));
