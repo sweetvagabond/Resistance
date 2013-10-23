@@ -25,6 +25,16 @@ app.post('/receive', function(req, res) {
     res.send(JSON.stringify(messages));
 });
 
+app.post('/send', function(req, res) {
+    var gameId = req.body.game_id;
+    var playerId = req.body.player_id;
+    var game = state.getGame(gameId);
+    var message = JSON.parse(req.body.message || 'null');
+    var raw = game.phase.receive(message);
+    var ans = (raw === void 0) ? null : raw;
+    res.send(JSON.stringify(ans));
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
     console.log('Listening on ' + port);
