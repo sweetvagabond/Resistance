@@ -65,5 +65,3 @@ Game.prototype.broadcastNewPlayer = function() {
         body: this.players.keys()
     });
 };
-
-exports.Game = Game;
