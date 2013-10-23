@@ -1,7 +1,27 @@
+var util = require('./util');
+
+var games = new util.Dictionary();
+
+exports.getOrCreateGame = function(gameId) {
+  if (!games.containsKey(gameId)) {
+    games.set(gameId, new Game(gameId));
+  }
+  return games.get(gameId);
+};
+
+exports.getGame = function(gameId) {
+  return games.get(gameId);
+};
+
+exports.endGame = function(gameId) {
+  games.removeKey(gameId);
+};
+
+
 function Game(gameId) {
     this.gameId = gameId;
     // Map of playerId to Player object.
-    this.players = {};
+    this.players = new util.Dictionary();
 }
 
 function Player(playerId) {
@@ -21,62 +41,29 @@ Player.prototype.send = function(msg) {
 };
 
 Game.prototype.getOrCreatePlayer = function(playerId) {
-    // SHOULD: consider case where playerId === 'hasOwnProperty'.
-    if (!this.players.hasOwnProperty(playerId)) {
+    if (!this.players.containsKey(playerId)) {
         // Create a new player.
         var player = new Player(playerId);
         // Add the player to our map.
-        this.players[playerId] = player;
+        this.players.set(playerId, player);
         // Don't broadcast the new player until after we've updated the map.
         this.broadcastNewPlayer();
     }
-    return this.players[playerId];
-};
-
-Game.prototype.getPlayer = function(playerId) {
-    // SHOULD: handle case when player is not defined.
-    return this.players[playerId];
-};
-
-
-Game.prototype.getPlayerIds = function() {
-    var playerIds = [];
-    for (var playerId in this.players) {
-        if (this.players.hasOwnProperty(playerId)) {
-            playerIds.push(playerId);
-        }
-    }
-    return playerIds;
-};
-
-
-Game.prototype.getPlayers = function() {
-    var playerIds = this.getPlayerIds();
-    var players = [];
-    for (var i = 0; i < playerIds.length; i += 1) {
-        var playerId = playerIds[i];
-        var player = this.players[playerId];
-        players.push(player);
-    }
-    return players;
+    return this.players.get(playerId);
 };
 
 
 Game.prototype.broadcast = function(message) {
-    var players = this.getPlayers();
-    for (var i = 0; i < players.length; i += 1) {
-        var player = players[i];
+    this.players.eachValue(function(player) {
         player.send(message);
-    }
+    });
 };
 
 Game.prototype.broadcastNewPlayer = function() {
-    var playerIds = this.getPlayerIds();
-    var message = {
+    this.broadcast({
         subject: 'NewPlayer',
-        body: playerIds
-    };
-    this.broadcast(message);
+        body: this.players.keys()
+    });
 };
 
 exports.Game = Game;

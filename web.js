@@ -1,5 +1,6 @@
 var express = require('express');
-var registry = require('./registry');
+var querystring = require('querystring');
+var state = require('./state');
 var app = express();
 
 app.use(express.logger());
@@ -9,17 +10,17 @@ app.use(express.static(__dirname + '/static'));
 app.post('/play', function(req, res) {
     var gameId = req.body.game_id;
     var playerId = req.body.player_id;
-    var game = registry.getOrCreateGame(gameId);
+    var game = state.getOrCreateGame(gameId);
     var player = game.getOrCreatePlayer(playerId);
-    // MUST: URL-encode both IDs.
-    res.redirect(301, '/play.html?game=' + gameId + '&player=' + playerId);
+    var qstr = querystring.stringify({game: gameId, player: playerId});
+    res.redirect(301, '/play.html?' + qstr);
 });
 
 app.post('/receive', function(req, res) {
     var gameId = req.body.game_id;
     var playerId = req.body.player_id;
-    var game = registry.getGame(gameId);
-    var player = game.getPlayer(playerId);
+    var game = state.getGame(gameId);
+    var player = game.players.get(playerId);
     var messages = player.receive();
     res.send(JSON.stringify(messages));
 });
